@@ -4,27 +4,33 @@
 
     <h2><%= project.title %></h2>
 
-    <p>
-        <%= project.description %>
-    </p>
+    <% if (project.description) { %>
+        <p>
+            <%= project.description %>
+        </p>
+    <% } %>
 
     <p>
         <strong>Organization:</strong>
 
-        <a href="/organization/<%= project.organization_id %>">
+        <a href="/organizations/<%= project.organization_id %>">
             <%= project.organization_name %>
         </a>
     </p>
 
-    <p>
-        <strong>Location:</strong>
-        <%= project.location %>
-    </p>
+    <% if (project.location) { %>
+        <p>
+            <strong>Location:</strong>
+            <%= project.location %>
+        </p>
+    <% } %>
 
-    <p>
-        <strong>Date:</strong>
-        <%= project.project_date.toLocaleDateString() %>
-    </p>
+    <% if (project.project_date) { %>
+        <p>
+            <strong>Date:</strong>
+            <%= new Date(project.project_date).toLocaleDateString() %>
+        </p>
+    <% } %>
 
 </section>
 
@@ -32,14 +38,14 @@
 
     <h2>Categories</h2>
 
-    <% if (categories.length > 0) { %>
+    <% if (categories && categories.length > 0) { %>
 
         <ul class="category-list">
 
             <% categories.forEach(category => { %>
 
                 <li>
-                    <a href="/category/<%= category.category_id %>">
+                    <a href="/categories/<%= category.category_id %>">
                         <%= category.category_name %>
                     </a>
                 </li>
@@ -50,7 +56,9 @@
 
     <% } else { %>
 
-        <p>This project has no categories.</p>
+        <p>
+            This project has no categories.
+        </p>
 
     <% } %>
 

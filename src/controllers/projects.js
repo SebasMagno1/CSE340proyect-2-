@@ -6,7 +6,7 @@ const categoriesModel =
 
 
 /*
- * Display the next five upcoming service projects
+ * Display the upcoming service projects
  */
 async function buildProjects(req, res, next) {
     try {

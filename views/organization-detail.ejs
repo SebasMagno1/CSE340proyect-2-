@@ -4,9 +4,11 @@
 
     <h2><%= organization.organization_name %></h2>
 
-    <p>
-        <%= organization.description %>
-    </p>
+    <% if (organization.description) { %>
+        <p>
+            <%= organization.description %>
+        </p>
+    <% } %>
 
     <% if (organization.website) { %>
 
@@ -21,10 +23,11 @@
                 Visit Organization Website
             </a>
         </p>
-
+        
     <% } %>
 
 </section>
+
 
 <section>
 
@@ -39,24 +42,30 @@
                 <article class="card">
 
                     <h3>
-                        <a href="/project/<%= project.project_id %>">
+                        <a href="/projects/<%= project.project_id %>">
                             <%= project.title %>
                         </a>
                     </h3>
 
-                    <p>
-                        <%= project.description %>
-                    </p>
+                    <% if (project.description) { %>
+                        <p>
+                            <%= project.description %>
+                        </p>
+                    <% } %>
 
-                    <p>
-                        <strong>Location:</strong>
-                        <%= project.location %>
-                    </p>
+                    <% if (project.location) { %>
+                        <p>
+                            <strong>Location:</strong>
+                            <%= project.location %>
+                        </p>
+                    <% } %>
 
-                    <p>
-                        <strong>Date:</strong>
-                        <%= project.project_date.toLocaleDateString() %>
-                    </p>
+                    <% if (project.project_date) { %>
+                        <p>
+                            <strong>Date:</strong>
+                            <%= new Date(project.project_date).toLocaleDateString() %>
+                        </p>
+                    <% } %>
 
                 </article>
 
@@ -73,6 +82,7 @@
     <% } %>
 
 </section>
+
 
 <p>
     <a class="button" href="/organizations">

@@ -8,45 +8,61 @@
         Explore available community service projects.
     </p>
 
-    <div class="cards">
+    <% if (projects && projects.length > 0) { %>
 
-        <% projects.forEach(project => { %>
+        <div class="cards">
 
-            <article class="card">
+            <% projects.forEach(project => { %>
 
-                <h3>
-                    <a href="/project/<%= project.project_id %>">
-                        <%= project.title %>
-                    </a>
-                </h3>
+                <article class="card">
 
-                <p>
-                    <%= project.description %>
-                </p>
+                    <h3>
+                        <a href="/projects/<%= project.project_id %>">
+                            <%= project.title %>
+                        </a>
+                    </h3>
 
-                <p>
-                    <strong>Organization:</strong>
+                    <% if (project.description) { %>
+                        <p>
+                            <%= project.description %>
+                        </p>
+                    <% } %>
 
-                    <a href="/organization/<%= project.organization_id %>">
-                        <%= project.organization_name %>
-                    </a>
-                </p>
+                    <p>
+                        <strong>Organization:</strong>
 
-                <p>
-                    <strong>Location:</strong>
-                    <%= project.location %>
-                </p>
+                        <a href="/organizations/<%= project.organization_id %>">
+                            <%= project.organization_name %>
+                        </a>
+                    </p>
 
-                <p>
-                    <strong>Date:</strong>
-                    <%= project.project_date.toLocaleDateString() %>
-                </p>
+                    <% if (project.location) { %>
+                        <p>
+                            <strong>Location:</strong>
+                            <%= project.location %>
+                        </p>
+                    <% } %>
 
-            </article>
+                    <% if (project.project_date) { %>
+                        <p>
+                            <strong>Date:</strong>
+                            <%= new Date(project.project_date).toLocaleDateString() %>
+                        </p>
+                    <% } %>
 
-        <% }) %>
+                </article>
 
-    </div>
+            <% }) %>
+
+        </div>
+
+    <% } else { %>
+
+        <p>
+            No service projects are currently available.
+        </p>
+
+    <% } %>
 
 </section>
 

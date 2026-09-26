@@ -8,27 +8,39 @@
         Explore service projects by category.
     </p>
 
-    <div class="cards">
+    <% if (categories && categories.length > 0) { %>
 
-        <% categories.forEach(category => { %>
+        <div class="cards">
 
-            <article class="card">
+            <% categories.forEach(category => { %>
 
-                <h3>
-                    <a href="/category/<%= category.category_id %>">
-                        <%= category.category_name %>
-                    </a>
-                </h3>
+                <article class="card">
 
-                <p>
-                    <%= category.description %>
-                </p>
+                    <h3>
+                        <a href="/categories/<%= category.category_id %>">
+                            <%= category.category_name %>
+                        </a>
+                    </h3>
 
-            </article>
+                    <% if (category.description) { %>
+                        <p>
+                            <%= category.description %>
+                        </p>
+                    <% } %>
 
-        <% }) %>
+                </article>
 
-    </div>
+            <% }) %>
+
+        </div>
+
+    <% } else { %>
+
+        <p>
+            No categories are currently available.
+        </p>
+
+    <% } %>
 
 </section>
 

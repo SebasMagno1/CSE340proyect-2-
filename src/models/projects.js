@@ -1,7 +1,7 @@
 const pool = require("../database/pool");
 
 /*
- * Get the next five upcoming service projects
+ * Get all service projects
  */
 async function getProjects() {
     const sql = `
@@ -16,9 +16,7 @@ async function getProjects() {
         FROM projects p
         INNER JOIN organizations o
             ON p.organization_id = o.organization_id
-        WHERE p.project_date >= CURRENT_DATE
-        ORDER BY p.project_date
-        LIMIT 5;
+        ORDER BY p.project_date;
     `;
 
     const result = await pool.query(sql);

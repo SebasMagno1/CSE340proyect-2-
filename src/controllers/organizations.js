@@ -1,7 +1,7 @@
 const organizationsModel =
     require("../models/organizations");
 
-
+    
 /*
  * Display all organizations
  */
@@ -14,7 +14,7 @@ async function buildOrganizations(req, res, next) {
             title: "Organizations",
             organizations
         });
-
+    
     } catch (error) {
         next(error);
     }
@@ -56,7 +56,7 @@ async function buildOrganizationDetail(req, res, next) {
             organization,
             projects
         });
-  
+    
     } catch (error) {
         next(error);
     }
