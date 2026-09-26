@@ -5,12 +5,10 @@ const categoriesModel =
     require("../models/categories");
 
 
-// Project list
-async function buildProjects(
-    req,
-    res,
-    next
-) {
+/*
+ * Display the next five upcoming service projects
+ */
+async function buildProjects(req, res, next) {
     try {
         const projects =
             await projectsModel.getProjects();
@@ -19,27 +17,25 @@ async function buildProjects(
             title: "Service Projects",
             projects
         });
-
+    
     } catch (error) {
         next(error);
     }
 }
 
 
-// Project detail
-async function buildProjectDetail(
-    req,
-    res,
-    next
-) {
+/*
+ * Display one service project and its categories
+ */
+async function buildProjectDetail(req, res, next) {
     try {
         const projectId =
             parseInt(req.params.id, 10);
 
         if (Number.isNaN(projectId)) {
-            return res.status(400).send(
-                "Invalid project ID."
-            );
+            return res.status(404).render("errors/404", {
+                title: "Project Not Found"
+            });
         }
 
         const project =
@@ -48,23 +44,22 @@ async function buildProjectDetail(
             );
 
         if (!project) {
-            return res.status(404).send(
-                "Project not found."
-            );
+            return res.status(404).render("errors/404", {
+                title: "Project Not Found"
+            });
         }
 
         const categories =
-            await categoriesModel
-                .getCategoriesByProjectId(
-                    projectId
-                );
+            await categoriesModel.getCategoriesByProjectId(
+                projectId
+            );
 
         res.render("project-detail", {
             title: project.title,
             project,
             categories
         });
-
+    
     } catch (error) {
         next(error);
     }

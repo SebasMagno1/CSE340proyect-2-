@@ -2,12 +2,10 @@ const organizationsModel =
     require("../models/organizations");
 
 
-// Organization list
-async function buildOrganizations(
-    req,
-    res,
-    next
-) {
+/*
+ * Display all organizations
+ */
+async function buildOrganizations(req, res, next) {
     try {
         const organizations =
             await organizationsModel.getOrganizations();
@@ -23,20 +21,18 @@ async function buildOrganizations(
 }
 
 
-// Organization detail
-async function buildOrganizationDetail(
-    req,
-    res,
-    next
-) {
+/*
+ * Display one organization and all of its projects
+ */
+async function buildOrganizationDetail(req, res, next) {
     try {
         const organizationId =
             parseInt(req.params.id, 10);
 
         if (Number.isNaN(organizationId)) {
-            return res.status(400).send(
-                "Invalid organization ID."
-            );
+            return res.status(404).render("errors/404", {
+                title: "Organization Not Found"
+            });
         }
 
         const organization =
@@ -45,23 +41,22 @@ async function buildOrganizationDetail(
             );
 
         if (!organization) {
-            return res.status(404).send(
-                "Organization not found."
-            );
+            return res.status(404).render("errors/404", {
+                title: "Organization Not Found"
+            });
         }
 
         const projects =
-            await organizationsModel
-                .getProjectsByOrganizationId(
-                    organizationId
-                );
+            await organizationsModel.getProjectsByOrganizationId(
+                organizationId
+            );
 
         res.render("organization-detail", {
             title: organization.organization_name,
             organization,
             projects
         });
-
+  
     } catch (error) {
         next(error);
     }

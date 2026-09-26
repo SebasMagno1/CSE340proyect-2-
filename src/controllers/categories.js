@@ -1,13 +1,10 @@
-const categoriesModel =
-    require("../models/categories");
+const categoriesModel = require("../models/categories");
 
 
-// Category list
-async function buildCategories(
-    req,
-    res,
-    next
-) {
+/*
+ * Display all categories
+ */
+async function buildCategories(req, res, next) {
     try {
         const categories =
             await categoriesModel.getCategories();
@@ -16,52 +13,44 @@ async function buildCategories(
             title: "Categories",
             categories
         });
-
     } catch (error) {
         next(error);
     }
 }
 
 
-// Category detail
-async function buildCategoryDetail(
-    req,
-    res,
-    next
-) {
+/*
+ * Display one category and all of its projects
+ */
+async function buildCategoryDetail(req, res, next) {
     try {
-        const categoryId =
-            parseInt(req.params.id, 10);
+        const categoryId = parseInt(req.params.id, 10);
 
         if (Number.isNaN(categoryId)) {
-            return res.status(400).send(
-                "Invalid category ID."
-            );
+            return res.status(404).render("errors/404", {
+                title: "Category Not Found"
+            });
         }
 
         const category =
-            await categoriesModel.getCategoryById(
-                categoryId
-            );
+            await categoriesModel.getCategoryById(categoryId);
 
         if (!category) {
-            return res.status(404).send(
-                "Category not found."
-            );
+            return res.status(404).render("errors/404", {
+                title: "Category Not Found"
+            });
         }
 
         const projects =
-            await categoriesModel
-                .getProjectsByCategoryId(
-                    categoryId
-                );
+            await categoriesModel.getProjectsByCategoryId(
+                categoryId
+            );
 
         res.render("category-detail", {
             title: category.category_name,
             category,
             projects
         });
-
     } catch (error) {
         next(error);
     }
