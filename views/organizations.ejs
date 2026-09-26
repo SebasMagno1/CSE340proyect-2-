@@ -1,0 +1,47 @@
+<%- include("partials/header", { title: title }) %>
+
+<section>
+
+    <h2><%= title %></h2>
+
+    <p>
+        Explore organizations offering service opportunities.
+    </p>
+
+    <div class="cards">
+
+        <% organizations.forEach(organization => { %>
+
+            <article class="card">
+
+                <h3>
+                    <a href="/organization/<%= organization.organization_id %>">
+                        <%= organization.organization_name %>
+                    </a>
+                </h3>
+
+                <p>
+                    <%= organization.description %>
+                </p>
+
+                <% if (organization.website) { %>
+                    <p>
+                        <a
+                            href="<%= organization.website %>"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Organization Website
+                        </a>
+                    </p>
+                <% } %>
+
+            </article>
+
+        <% }) %>
+
+    </div>
+
+</section>
+
+<%- include("partials/footer") %>
